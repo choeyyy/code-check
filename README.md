@@ -170,4 +170,4 @@ code-check/
 | UNDOCUMENTED | 代码有行为但文档未描述 |
 | STALE | 已知差异标注"待评估"长期未更新 |
 
-详细用法见项目源码中的 `NOTE/USAGE/code-check.md`。
+详细用法见项目 Wiki 或源码中的 `NOTE/USAGE/code-check.md`。
