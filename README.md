@@ -4,40 +4,49 @@
 
 ## 快速安装
 
-### 方式一：脚本安装（推荐）
+### 方式一：一行命令安装（推荐）
 
-将本目录放到任意位置，然后运行安装脚本。脚本会自动检测路径并创建 Skill 指针文件。
+运行一行命令，然后在 Cursor 中完成安装。
 
 **Windows (PowerShell)**：
 
 ```powershell
-cd <code-check 所在目录>
-.\install.ps1
+irm https://raw.githubusercontent.com/choeyyy/code-check/main/bootstrap.ps1 | iex
 ```
 
 **Linux / macOS**：
 
 ```bash
-cd <code-check 所在目录>
-bash install.sh
+curl -sL https://raw.githubusercontent.com/choeyyy/code-check/main/bootstrap.sh | bash
 ```
 
-安装完成后重启 Cursor，即可在任意工作区使用 `/check` 系列命令。
+这会安装 `/check-setup` 引导 skill。然后打开 Cursor，输入 `/check-setup`，Agent 会引导你完成：
+- 环境检查（git、Cursor、权限）
+- 选择安装位置
+- 从 GitHub 拉取插件
+- 创建所有 skill 指针
+- 展示配置和用法
 
-**卸载**：
+**更新**：再次运行 `/check-setup`，会自动检测已安装版本并提示更新。
+
+**卸载**：运行 `/check-setup`，说 "卸载"。
+
+### 方式二：脚本安装（已有本地目录）
+
+如果你已经有 code-check 目录（比如手动 clone 过），可以直接运行安装脚本：
 
 ```powershell
-.\install.ps1 -Uninstall        # Windows
-bash install.sh --uninstall     # Linux/macOS
+cd <code-check 所在目录>
+.\install.ps1                   # Windows
+bash install.sh                 # Linux/macOS
+
+.\install.ps1 -Uninstall        # 卸载 (Windows)
+bash install.sh --uninstall     # 卸载 (Linux/macOS)
 ```
-
-### 方式二：Cursor 内安装
-
-在 Cursor 对话中输入 `/check-setup`，Agent 会引导你完成安装（需要先将本目录中的 `setup/SKILL.md` 复制到 `~/.cursor/skills/check-setup/SKILL.md`）。
 
 ### 方式三：手动安装
 
-1. 将本目录放到一个固定位置（安装后不要移动）
+1. Clone 仓库到任意位置：`git clone https://github.com/choeyyy/code-check.git`
 
 2. 为每个命令在 `~/.cursor/skills/` 下创建 Skill 指针文件，格式如下：
 
@@ -161,4 +170,4 @@ code-check/
 | UNDOCUMENTED | 代码有行为但文档未描述 |
 | STALE | 已知差异标注"待评估"长期未更新 |
 
-详细用法见 `D:\SOFT\TOOLS\NOTE\USAGE\code-check.md`。
+详细用法见项目源码中的 `NOTE/USAGE/code-check.md`。
