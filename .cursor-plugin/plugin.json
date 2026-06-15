@@ -1,0 +1,28 @@
+{
+  "name": "code-check",
+  "displayName": "Code Check",
+  "version": "0.2.0",
+  "description": "Multi-agent code review with confidence scoring, session tracking, and customizable rubrics. Quick daily checks (/check), thorough pre-commit reviews (/check-full), and spec-alignment verification (/check-rules).",
+  "author": {
+    "name": "cenhuiying"
+  },
+  "license": "MIT",
+  "keywords": [
+    "code-check",
+    "code-review",
+    "multi-agent",
+    "confidence-scoring",
+    "rubric",
+    "session-tracking",
+    "spec-alignment"
+  ],
+  "category": "developer-tools",
+  "tags": [
+    "review",
+    "quality",
+    "automation",
+    "spec-check"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}
