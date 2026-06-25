@@ -12,6 +12,38 @@ Follow these steps in order. Do not skip steps. Do not modify files under review
 
 ---
 
+## Step 0: Check for `-update fixed`
+
+Check whether the user's message contains `-update fixed` (case-insensitive).
+
+If **not found** → skip to Step 1.
+
+If **found** → execute the lightweight sync flow below, then **STOP** (do not continue to Step 1):
+
+1. **Read session** — Read `.checks/session.md` in the project root.
+   - If the file does not exist → output "没有审查会话。" → **STOP**.
+
+2. **Extract open issues** — Parse the `## Issue Tracker` table. Collect every row whose Status column is `open`.
+   - If no open issues → output "没有待同步的 issue。" → **STOP**.
+
+3. **Snippet-check each open issue** — For each open issue:
+   - Read the file referenced in the **File** column.
+   - Search for the **Snippet** value as an exact substring in the file content.
+   - Snippet **not found** (or file does not exist / is unreadable) → set new status to `verify`.
+   - Snippet **found** → keep status as `open`.
+
+4. **Write back** — Update the Status column of each affected row in `.checks/session.md` with the new status.
+
+5. **Output summary** — For each open issue processed, print one line:
+   - Status changed: `{ID}: open → verify (snippet 已不存在)`
+   - Status unchanged: `{ID}: 仍 open`
+
+   End with: "运行 /check 确认修复。"
+
+6. **STOP** — Do not proceed to Step 1 or any subsequent steps.
+
+---
+
 ## Step 1: Determine Scope
 
 Determine which files to review using this priority chain:
@@ -116,11 +148,11 @@ If the user explicitly opted out, skip this step entirely.
 If `.checks/session.md` exists in the project root:
 
 1. Read it. Parse the issue tracker table.
-2. For each issue with status `open`:
+2. For each issue with status `open` or `verify`:
    - Read the file referenced by the issue.
    - Search for the **snippet** recorded in the issue (exact substring match).
    - Snippet **not found** in the file → mark as `fixed`.
-   - Snippet **found** → keep as `open`.
+   - Snippet **found** → keep current status (`open` stays `open`, `verify` stays `verify`).
    - File deleted, heavily restructured, or match inconclusive → mark as `verify`.
 3. Hold these status updates — you will write them in Step 8.
 
@@ -275,16 +307,16 @@ Assign issue IDs: `C`-prefixed, zero-padded to 3 digits, continuing from the las
 
 For each new finding: add a row with status `open`, source `local`, and the current run number.
 
-For previously open issues tracked in Step 4:
+For issues processed in Step 4 (both previously `open` and `verify`):
 - Issues marked `fixed` → update status to `fixed`
 - Issues marked `verify` → update status to `verify`
-- Issues still `open` → leave unchanged
+- Issues whose status is unchanged → leave as-is
 
 **8e. Update change aggregate** (`.checks/changes/{label}.md`):
 
 Create `.checks/changes/` directory if it doesn't exist.
 
-Compute the `resolved_count`: count issues from Step 4 whose status changed from `open` to `fixed` AND whose file is in the current scope. If no session existed (first run), `resolved_count` = 0.
+Compute the `resolved_count`: count issues from Step 4 whose status changed to `fixed` (from `open` or `verify`) AND whose file is in the current scope. If no session existed (first run), `resolved_count` = 0.
 
 If `.checks/changes/{label}.md` already exists:
 - Read it

@@ -63,11 +63,12 @@ Read and follow the complete orchestrator instructions at `<你的路径>/code-c
 The plugin root for relative path resolution (agents/, references/) is `<你的路径>/code-check/`.
 ```
 
-需要创建的 7 个 Skill 指针：
+需要创建的 8 个 Skill 指针：
 
 | 目录名 | 对应 Skill |
 |--------|-----------|
 | `check/` | 日常轻量审查 |
+| `check-fix/` | AI 辅助修复 |
 | `check-git/` | 分支变更审查 |
 | `check-full/` | 深度审查 |
 | `check-full-git/` | 分支深度审查 |
@@ -84,6 +85,7 @@ code-check/
 ├── .cursor-plugin/plugin.json   ← 插件元数据
 ├── skills/                      ← 编排器（实际逻辑）
 │   ├── check/SKILL.md
+│   ├── check-fix/SKILL.md
 │   ├── check-git/SKILL.md
 │   ├── check-full/SKILL.md
 │   ├── check-full-git/SKILL.md
@@ -115,6 +117,19 @@ code-check/
 
 ---
 
+## 模型架构
+
+| 角色 | 模型来源 | 说明 |
+|------|----------|------|
+| **主 Agent（Orchestrator）** | 用户在 IDE 中选择的模型 | 协调流程、收集上下文、合并去重、持久化。质量取决于用户当前选用的模型 |
+| **子 Agent（Reviewer / Judge / Verifier）** | 插件 Skill 中写死（Task tool `model` 参数） | 不受用户 IDE 模型影响。可通过 REVIEW.md `## Model Overrides` 覆盖 |
+| **Fix Agent** | 用户在 IDE 中选择的模型 | 修复代码，继承主 Agent 模型 |
+| **Verify Agent** | haiku-thinking | 验证修复正确性，轻量只读 |
+
+主 Agent 是 Cursor 平台分配的——运行 `/check` 时，Orchestrator 用的就是用户当时在 IDE 里选的模型。插件无法控制这一层。因此同一个插件在不同模型下表现可能不同（协调精度、上下文理解、进度反馈质量等）。
+
+---
+
 ## 命令一览
 
 | 命令 | 用途 |
@@ -127,6 +142,8 @@ code-check/
 | `/check-session status` | 查看会话状态 |
 | `/check-session end` | 归档当前会话并重开 |
 | `/check-summarize` | 从历史中提取 Bug 经验 |
+| `/check-fix` | AI 辅助修复 |
+| `/check -update fixed` | 轻量状态同步 |
 
 ---
 
@@ -171,3 +188,4 @@ code-check/
 | STALE | 已知差异标注"待评估"长期未更新 |
 
 详细用法见项目 Wiki 或源码中的 `NOTE/USAGE/code-check.md`。
+

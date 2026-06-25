@@ -101,10 +101,10 @@ If the user opts out, proceed without it.
 Look for `.checks/session.md` in the workspace root. If it exists:
 
 1. Read it and extract the issue tracking table.
-2. For each previously open issue, check whether the problematic code snippet still exists in the current file contents. Use substring/fuzzy matching on the snippet field, not line numbers (lines shift).
-   - Snippet no longer present → mark as **resolved** in session.md
-   - Snippet still present → keep as **open**
-   - Cannot determine → mark as **needs-verification** (reviewers will re-evaluate)
+2. For each issue with status `open` or `verify`, check whether the problematic code snippet still exists in the current file contents. Use exact substring match on the snippet field, not line numbers (lines shift).
+   - Snippet no longer present → mark as `fixed`
+   - Snippet still present → keep current status
+   - Cannot determine → mark as `verify` (reviewers will re-evaluate)
 3. Report to the user: "Session update: N issues resolved, M still open, K need verification."
 
 If `.checks/session.md` does not exist, skip this step.
@@ -344,10 +344,10 @@ Assign issue IDs: `C`-prefixed, zero-padded to 3 digits, continuing from the las
 
 For each new finding: add a row with status `open`, source `local`, score column, and the current run number.
 
-Update previously open issues from Step 4:
+For issues processed in Step 4 (both previously `open` and `verify`):
 - Issues marked `fixed` → update status to `fixed`
 - Issues marked `verify` → update status to `verify`
-- Issues still `open` → leave unchanged
+- Issues whose status is unchanged → leave as-is
 
 Stage stays at current value for local mode (does not auto-progress).
 
@@ -355,7 +355,7 @@ Stage stays at current value for local mode (does not auto-progress).
 
 Create `.checks/changes/` directory if it doesn't exist.
 
-Compute the `resolved_count`: count issues from Step 4 whose status changed from `open` to `fixed` AND whose file is in the current scope. If no session existed (first run), `resolved_count` = 0.
+Compute the `resolved_count`: count issues from Step 4 whose status changed to `fixed` (from `open` or `verify`) AND whose file is in the current scope. If no session existed (first run), `resolved_count` = 0.
 
 If `.checks/changes/{label}.md` already exists:
 - Read it

@@ -116,10 +116,10 @@ Identical to `/check-full`. If `REVIEW.md` does NOT exist in the project root AN
 Identical to `/check-full`. If `.checks/session.md` exists:
 
 1. Read it. Parse the issue tracker table.
-2. For each issue with status `open`:
+2. For each issue with status `open` or `verify`:
    - Read the referenced file.
    - Search for the recorded **snippet** (exact substring match).
-   - Snippet not found → `fixed`. Snippet found → `open`. Inconclusive → `verify`.
+   - Snippet not found → `fixed`. Snippet found → keep current status. Inconclusive → `verify`.
 3. Hold these status updates for Step 10.
 
 ## Step 5: Launch 5 Reviewers in Parallel
@@ -377,7 +377,7 @@ Set the stage to **"final-review"** (最终审查). `/check-full-git` always pro
 
 Create `.checks/changes/` directory if it doesn't exist.
 
-Compute the `resolved_count`: count issues from Step 4 whose status changed from `open` to `fixed` AND whose file is in the current scope. If no session existed (first run), `resolved_count` = 0.
+Compute the `resolved_count`: count issues from Step 4 whose status changed to `fixed` (from `open` or `verify`) AND whose file is in the current scope. If no session existed (first run), `resolved_count` = 0.
 
 If `.checks/changes/{label}.md` already exists:
 - Read it
