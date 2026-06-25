@@ -1,8 +1,8 @@
 {
   "name": "code-check",
   "displayName": "Code Check",
-  "version": "0.2.0",
-  "description": "Multi-agent code review with confidence scoring, session tracking, and customizable rubrics. Quick daily checks (/check), thorough pre-commit reviews (/check-full), and spec-alignment verification (/check-rules).",
+  "version": "0.3.0",
+  "description": "Multi-agent code review with confidence scoring, session tracking, AI-assisted fixing, and customizable rubrics. Quick daily checks (/check), thorough pre-commit reviews (/check-full), spec-alignment verification (/check-rules), and automated issue repair (/check-fix).",
   "author": {
     "name": "cenhuiying"
   },
