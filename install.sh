@@ -20,11 +20,11 @@ declare -A SKILL_DESCS=(
     [check-full]="Thorough code review -- 5 parallel reviewers, 0-100 confidence scoring, threshold filtering."
     [check-full-git]="Thorough git branch review -- 5 parallel reviewers, confidence scoring, threshold filtering."
     [check-rules]="Spec-alignment check -- verify code matches rule documents using dual-direction reviewers."
-    [check-session]="View review session status or archive and restart."
+    [check-session-cil]="View review session status, archive/restart, or query Cursor Interaction Logs."
     [check-summarize]="Analyze review history to extract bug patterns, hotspots, and recommended rules."
 )
 
-SKILL_NAMES=(check check-git check-full check-full-git check-rules check-session check-summarize)
+SKILL_NAMES=(check check-git check-full check-full-git check-rules check-session-cil check-summarize)
 
 if [ "${1:-}" = "--uninstall" ]; then
     echo ""

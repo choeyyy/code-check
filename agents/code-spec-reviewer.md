@@ -41,6 +41,7 @@ Not everything undocumented is worth reporting. Apply these filters:
 | Type | When | Evidence Required |
 |------|------|-------------------|
 | **UNDOCUMENTED** | Code has meaningful behavior that spec does not describe | Show the code location and a brief description of the undocumented behavior |
+| **UNDERSPECIFIED** | Code behavior addresses a business requirement, but spec wording is too vague to determine if code logic is correct | Show the code logic, the vague spec section, and list options (互斥解读) |
 
 ## Output Format
 

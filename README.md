@@ -73,7 +73,7 @@ The plugin root for relative path resolution (agents/, references/) is `<你的�
 | `check-full/` | 深度审查 |
 | `check-full-git/` | 分支深度审查 |
 | `check-rules/` | 规格对齐检查 |
-| `check-session/` | 会话管理 |
+| `check-session-cil/` | 会话管理 + CIL 对话查询 |
 | `check-summarize/` | 经验总结 |
 
 3. 重启 Cursor 或新开窗口
@@ -90,7 +90,7 @@ code-check/
 │   ├── check-full-git/SKILL.md          深度分支审查
 │   ├── check-rules/SKILL.md             规格对齐检查
 │   ├── check-fix/SKILL.md               AI 辅助修复
-│   ├── check-session/SKILL.md           会话管理
+│   ├── check-session-cil/SKILL.md       会话管理 + CIL 对话查询
 │   ├── check-summarize/SKILL.md         经验总结
 │   └── check-test-parallel/SKILL.md     并行测试辅助（内部工具）
 ├── agents/                           ← 子代理角色 prompt
@@ -162,8 +162,9 @@ code-check/
 | `/check-full` | 深度本地审查 |
 | `/check-full-git` | 深度分支审查 |
 | `/check-rules` | 规格对齐检查（代码 vs 规则文档） |
-| `/check-session status` | 查看会话状态 |
-| `/check-session end` | 归档当前会话并重开 |
+| `/check-session-cil status` | 查看审查会话状态 |
+| `/check-session-cil end` | 归档当前会话并重开 |
+| `/check-session-cil <path>` | 查询指定工作区今日 Cursor 对话（CIL） |
 | `/check-summarize` | 从历史中提取 Bug 经验 |
 | `/check-fix` | AI 辅助修复 |
 | `/check -update fixed` | 轻量状态同步 |

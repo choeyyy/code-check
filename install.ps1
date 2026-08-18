@@ -25,7 +25,7 @@ $SKILL_NAMES = @(
     @{ name = "check-full";       desc = "Thorough code review -- 5 parallel reviewers, 0-100 confidence scoring, threshold filtering." },
     @{ name = "check-full-git";   desc = "Thorough git branch review -- 5 parallel reviewers, confidence scoring, threshold filtering." },
     @{ name = "check-rules";      desc = "Spec-alignment check -- verify code matches rule documents using dual-direction reviewers." },
-    @{ name = "check-session";    desc = "View review session status or archive and restart." },
+    @{ name = "check-session-cil"; desc = "View review session status, archive/restart, or query Cursor Interaction Logs." },
     @{ name = "check-summarize";  desc = "Analyze review history to extract bug patterns, hotspots, and recommended rules." }
 )
 

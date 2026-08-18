@@ -162,7 +162,7 @@ Write the final spec-card to `spec-card/{stem}.yaml`:
 - Set `status` based on verification level
 - Compute and set all count fields
 
-Tell user: "spec-card/{stem}.yaml 已生成（N 条断言 / M 条边界 / K 条配置）"
+Tell user: "spec-card/{stem}.yaml 已生成（N 条断言 / M 条边界 / K 条配置 / U 条缺口项）"
 
 ---
 
@@ -229,7 +229,7 @@ After each batch completes:
 
 ### Step 3.2: Assign Type Labels
 
-Each finding gets exactly one type: DRIFT / MISSING / UNDOCUMENTED / STALE
+Each finding gets exactly one type: DRIFT / MISSING / UNDOCUMENTED / STALE / UNDERSPECIFIED
 
 ### Step 3.3: Format Standardization
 
@@ -326,8 +326,17 @@ Output:
 ### UNDOCUMENTED (代码行为未被文档描述)
 [Findings of type UNDOCUMENTED, if any. Otherwise "None."]
 
+### UNDERSPECIFIED (规格描述含糊/缺口/缺少锚点)
+[Findings of type UNDERSPECIFIED, if any. Otherwise "None."]
+
 ### STALE (已知差异待评估)
 [Findings of type STALE, if any. Otherwise "None."]
+
+### 仍需确认 / 待裁决事项
+[Consolidated checklist of mutual interpretations or missing anchors, e.g.
+- [ ] R003 (配置锚点缺失): 确认 `max_retry` 的默认缺省行为为降级还是报错
+- [ ] R005 (歧义解读): 确认规则 §3.2 指的是物理离线还是逻辑离线
+If none: "None."]
 
 ### Session Update
 [Run NNN saved. N new issues, N below threshold, N rejected.]
@@ -345,6 +354,27 @@ Each finding displays:
 - **Confidence**: {score} — **Source**: {agent}
 
 If zero total findings: "**No findings.** 代码与规格文档一致。"
+
+---
+
+## Examples
+
+<example>
+<input>
+User: /check-rules
+Context: `spec-index.md` exists mapping `docs/specs/auth-spec.md` to `src/auth/*.ts`.
+Git dirty files: `src/auth/session.ts`
+</input>
+<output>
+1. Matches dirty file `src/auth/session.ts` to `docs/specs/auth-spec.md`.
+2. Asks user to confirm scope via AskQuestion:
+   - [A] Check matched 1 rule doc (auth-spec.md)
+3. Checks spec-card freshness for `auth-spec.md` (`spec-card/auth-spec.yaml`).
+4. Executes Phase 2 alignment check with parallel sub-agents (Spec→Code & Code→Spec).
+5. Executes Phase 3 Verifier validation on findings.
+6. Outputs Phase 4 report containing findings (DRIFT, MISSING, UNDOCUMENTED, UNDERSPECIFIED), persists to `.checks/session.md` and `.checks/history/rules001-auth-spec.md`.
+</output>
+</example>
 
 ---
 

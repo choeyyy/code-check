@@ -56,7 +56,7 @@ Set `SKILLS_DIR`:
 
 ## Step 2: Detect Existing Installation
 
-Scan `SKILLS_DIR` for these 7 directories: `check`, `check-git`, `check-full`, `check-full-git`, `check-rules`, `check-session`, `check-summarize`.
+Scan `SKILLS_DIR` for these 7 directories: `check`, `check-git`, `check-full`, `check-full-git`, `check-rules`, `check-session-cil`, `check-summarize`.
 
 For each that exists, read its `SKILL.md` and extract the path it points to (the line containing "orchestrator instructions at").
 
@@ -153,7 +153,7 @@ For each of the 7 skills, create `SKILLS_DIR/<name>/SKILL.md`:
 | check-full | Thorough code review -- 5 parallel reviewers, 0-100 confidence scoring, threshold filtering. |
 | check-full-git | Thorough git branch review -- 5 parallel reviewers, confidence scoring, threshold filtering. |
 | check-rules | Spec-alignment check -- verify code matches rule documents using dual-direction reviewers. |
-| check-session | View review session status or archive and restart. |
+| check-session-cil | View review session status, archive/restart, or query Cursor Interaction Logs. |
 | check-summarize | Analyze review history to extract bug patterns, hotspots, and recommended rules. |
 
 </skill_definitions>
@@ -183,7 +183,7 @@ Present results:
   [ok] check-full       — 深度审查（5 reviewer + Judge）
   [ok] check-full-git   — 分支深度审查
   [ok] check-rules      — 规格对齐检查（代码 vs 规则文档）
-  [ok] check-session    — 会话管理（status / end）
+  [ok] check-session-cil — 会话管理 + CIL 对话查询（status / end / cil）
   [ok] check-summarize  — 从历史中提取经验
 
 配置信息：
@@ -200,7 +200,7 @@ Present results:
   /check-full         深度审查（5 个 reviewer + 独立评分）
   /check-full-git     分支深度审查（合并前推荐）
   /check-rules        检查代码是否与规则文档一致
-  /check-session      查看审查会话状态 / 归档重开
+  /check-session-cil  查看审查会话 / 归档重开 / 查今日对话
   /check-summarize    从审查历史提炼 bug 经验
 
   首次运行会自动在项目中生成 REVIEW.md（审查配置）和 .checks/（审查数据）。
@@ -231,7 +231,7 @@ Confirm with the user before proceeding:
 
 If user confirms:
 
-1. Delete these 7 directories from `SKILLS_DIR`: `check`, `check-git`, `check-full`, `check-full-git`, `check-rules`, `check-session`, `check-summarize`
+1. Delete these 7 directories from `SKILLS_DIR`: `check`, `check-git`, `check-full`, `check-full-git`, `check-rules`, `check-session-cil`, `check-summarize`
 2. Read the path from any existing skill pointer to find `PLUGIN_DIR` (the line containing "plugin root")
 3. Delete `PLUGIN_DIR` entirely (the cloned repo)
 4. Verify deletions

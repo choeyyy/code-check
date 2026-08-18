@@ -46,6 +46,31 @@ Does the code have significant behaviors not described in any spec?
 - Business logic branches without spec coverage
 - Configuration-driven behavior without spec coverage
 
+### 6. Configuration Anchor Completeness
+
+Does configuration-driven code have a complete, unambiguous configuration anchor?
+
+Check the 5 config anchor elements:
+1. **Config file / schema path**: Where the config lives or is defined
+2. **Config key**: Exact leaf key name
+3. **Type & constraints**: Allowed data types, valid range, or special values
+4. **Fallback behavior**: What happens when key is missing or unparseable
+5. **Schema consistency**: Does code match the schema/config definition
+
+If any anchor element is missing or ambiguous in the spec or code → report as `UNDERSPECIFIED`.
+
+### 7. Upstream Wording Precision & No-Invent Rule
+
+**Critical: No-Invent Principle (禁止臆造)**:
+Reviewers MUST NOT fabricate missing rules, default values, or assumed business logic when the spec is silent, vague, or incomplete.
+
+- If the spec uses vague phrases ("按配置", "视情况", "相关规则") without naming specific keys or formulas:
+  - Do NOT pick a default interpretation as the "intended" logic.
+  - Report as `UNDERSPECIFIED`.
+- If the spec or code presents two mutually exclusive interpretations:
+  - Present both interpretations as **互斥解读 (Options A / B)** for user decision.
+  - Do NOT force a single conclusion without explicit user or document confirmation.
+
 ---
 
 ## NOT Checked (Out of Scope)
@@ -82,7 +107,9 @@ A finding WITHOUT all four elements should not be reported.
 
 | Signal | Effect on Confidence |
 |--------|---------------------|
-| Spec uses precise numbers/formulas that code clearly violates | High confidence |
-| Spec is ambiguous but code seems to contradict intent | Medium confidence |
-| Spec uses vague language ("should handle edge cases") | Low confidence — likely not worth reporting |
-| Code implements behavior spec doesn't mention | Depends on behavior significance |
+| Spec uses precise numbers/formulas that code clearly violates | High confidence (DRIFT) |
+| Spec explicitly requires behavior that code has no implementation for | High confidence (MISSING) |
+| Config key/path is missing in spec or code, creating ambiguity | High confidence (UNDERSPECIFIED) |
+| Spec is ambiguous or uses vague phrases ("视情况", "按配置") without anchors | High confidence (UNDERSPECIFIED with Options) |
+| Code implements behavior spec doesn't mention | Depends on behavior significance (UNDOCUMENTED) |
+| Spec is vague but reviewer tries to guess user's "intended" logic | LOW confidence (Violates No-Invent principle — reclassify as UNDERSPECIFIED) |

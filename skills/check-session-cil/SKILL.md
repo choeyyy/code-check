@@ -1,14 +1,94 @@
 ---
-name: check-session
-description: "View review session status or archive and restart"
+name: check-session-cil
+description: "View review session status, archive/restart, or query Cursor Interaction Logs (CIL)"
 disable-model-invocation: true
 ---
 
-# /check-session
+# /check-session-cil
 
-Manage the current code review session. Supports two subcommands: `status` (default) and `end`.
+Manage code review sessions **or** query Cursor agent conversation logs (CIL).
 
-Parse the user's message to determine the subcommand. If no subcommand is specified, default to `status`.
+Parse the user's message to determine the subcommand:
+
+| Subcommand | Trigger | Action |
+|------------|---------|--------|
+| `status` | default when no path/date given and `.checks/session.md` exists | Review session summary |
+| `end` | user says `end` | Archive review session |
+| `cil` | user gives a workspace path and/or asks for 对话/会话/transcript/today | Query agent transcripts |
+
+If the user gives an absolute workspace path (e.g. `D:\REQUIREMENTS\gx-server\game-platform-new-qxc`) or asks for “今天的对话”, run **Subcommand: cil** even without the literal word `cil`.
+
+---
+
+## Subcommand: cil
+
+Query today's (or specified date's) Cursor agent conversations for a workspace.
+
+### 1. Resolve workspace path
+
+- Use the path from the user message if provided.
+- Otherwise use the current workspace root.
+
+### 2. Map to Cursor projects folder
+
+Agent transcripts live under:
+
+```
+%USERPROFILE%\.cursor\projects\<slug>\agent-transcripts\
+```
+
+**Slug rule:** `{driveLetter}-{path-with-slashes-as-dashes}` (no colon). Example:
+
+- `D:\REQUIREMENTS\gx-server\game-platform-new-qxc` → `D-REQUIREMENTS-gx-server-game-platform-new-qxc`
+
+If the exact slug folder is missing, try the lowercase-drive variant (e.g. `d-REQUIREMENTS-...`) or scan `%USERPROFILE%\.cursor\projects\` for a directory whose name ends with the last path segment.
+
+### 3. Collect transcripts
+
+For each `agent-transcripts/<uuid>/<uuid>.jsonl`:
+
+- Filter by file `mtime` date (default: **today**, local timezone).
+- If user specifies a date (`YYYY-MM-DD`), filter to that date instead.
+
+### 4. Parse each jsonl
+
+For each line (JSON):
+
+- **user** messages: extract `<user_query>...</user_query>`; also extract `<timestamp>` when present.
+- **assistant** messages: take first ~200 chars of text content as a one-line summary (skip tool-only turns).
+
+Group by transcript UUID. Sort sessions by earliest timestamp in each file.
+
+### 5. Present summary
+
+```markdown
+## Cursor Interaction Log (CIL)
+
+**Workspace**: <absolute path>
+**Date**: <YYYY-MM-DD>
+**Sessions**: <N>
+
+### Session 1 — <uuid short> (<start time> ~ <end time>)
+**Topic**: <one-line inferred topic from first user query>
+
+| Time | Role | Summary |
+|------|------|---------|
+| HH:MM | user | <query excerpt ≤120 chars> |
+| HH:MM | asst | <summary ≤120 chars> |
+...
+
+### Session 2 — ...
+...
+
+### Day Overview
+- **Main threads**: <bullet list of 3–6 themes across all sessions>
+- **Commands used**: <e.g. /bf-rd-sop, /speckit-specify, …>
+- **Outcomes**: <what was completed, blocked, or left open>
+```
+
+Omit empty sessions. If no transcripts found:
+
+> No Cursor agent transcripts found for `<path>` on `<date>`. Confirm the workspace was opened in Cursor today.
 
 ---
 
@@ -16,7 +96,7 @@ Parse the user's message to determine the subcommand. If no subcommand is specif
 
 ### 1. Check for active session
 
-Read `.checks/session.md`.
+Read `.checks/session.md` in the **current workspace** (or path given by user).
 
 - If the file does not exist, respond with:
   > No review session exists. Run `/check` to start reviewing.

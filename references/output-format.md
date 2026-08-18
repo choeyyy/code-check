@@ -102,14 +102,22 @@ Each spec-alignment finding MUST include all fields in this order:
 ### Finding: <short title>
 
 - **ID**: R{NNN}
-- **Type**: <`DRIFT` | `MISSING` | `UNDOCUMENTED` | `STALE`>
+- **Type**: <`DRIFT` | `MISSING` | `UNDOCUMENTED` | `STALE` | `UNDERSPECIFIED`>
 - **Rule Document**: <SOURCE link to the rule document section>
 - **File**: <code file path relative to project root>
 - **Line**: <line number or range>
 - **Snippet**: `<the actual code, verbatim>`
-- **Description**: <what is inconsistent and why, in Chinese>
-- **Evidence**: <reasoning chain showing the discrepancy, in Chinese>
+- **Description**: <what is inconsistent or underspecified and why, in Chinese>
+- **Evidence**: <reasoning chain showing the discrepancy or missing anchor, in Chinese>
 - **Source Agent**: <`Spec→Code` | `Code→Spec`>
+```
+
+If `UNDERSPECIFIED` or ambiguous logic is detected, an optional **Options** section can be appended to present mutual interpretations:
+
+```
+- **Options**:
+  - [ ] 解读 A: <first interpretation / proposed fix>
+  - [ ] 解读 B: <second interpretation / proposed fix>
 ```
 
 ---
@@ -122,6 +130,7 @@ Each spec-alignment finding MUST include all fields in this order:
 | **MISSING** | Spec describes behavior but code has no corresponding implementation | Spec→Code |
 | **UNDOCUMENTED** | Code has behavior that spec does not describe | Code→Spec |
 | **STALE** | Known-diff marked "pending review" with no recent update | Spec→Code |
+| **UNDERSPECIFIED** | Spec wording is vague, missing config anchors, or incomplete, causing ambiguous code behavior | Spec→Code / Code→Spec |
 
 ---
 

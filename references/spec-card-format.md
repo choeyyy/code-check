@@ -29,6 +29,7 @@ configs: 5
 known_diffs: 2
 depends: 1
 phases: 1
+underspecified: 2
 
 # ─── Extracted Content ──────────────────────────────────
 
@@ -71,6 +72,12 @@ phases:
     stage: "{execution stage/phase name}"
     defined_in: "{state-machine-doc-path} §{section}"
     source: "{doc-path} §{section}, line {N}"
+
+underspecified:
+  - id: U001
+    content: "{description of vague requirement, e.g. missing config anchor, ambiguous rule, or missing default}"
+    missing: "{what is missing: file path, key name, type/constraint, default, or decision rule}"
+    source: "{doc-path} §{section}, line {N}"
 ```
 
 ---
@@ -88,6 +95,7 @@ phases:
 | `known_diffs` | int | Count of KNOWN-DIFF entries |
 | `depends` | int | Count of DEPENDS entries |
 | `phases` | int | Count of PHASE entries |
+| `underspecified` | int | Count of UNDERSPECIFIED entries (vague phrasing, incomplete config anchors) |
 
 ---
 
@@ -119,3 +127,4 @@ Each extracted item gets a prefixed sequential ID within its category:
 | Known Diff | K | K001, K002 |
 | Depends | D | D001, D002 |
 | Phase | P | P001, P002 |
+| Underspecified | U | U001, U002 |
