@@ -4,6 +4,11 @@ description: "Spec-alignment check — verifies code matches rule documents usin
 disable-model-invocation: true
 ---
 
+## Host compatibility
+
+Read [host capability mapping](../../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
+
 # /check-rules — Spec-Alignment Check
 
 You are the orchestrator for a spec-alignment review pipeline. Your job is to verify that code correctly implements what rule documents describe, using a four-phase process: scope evaluation, document extraction, alignment checking, and merge verification.

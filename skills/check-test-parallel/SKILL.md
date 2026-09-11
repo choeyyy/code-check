@@ -4,6 +4,11 @@ description: "R1 validation: test that 3 parallel sub-agents launch concurrently
 disable-model-invocation: true
 ---
 
+## Host compatibility
+
+Read [host capability mapping](../../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
+
 # Parallel Sub-Agent Validation (R1)
 
 This is a one-time test skill to validate that the Cursor Task tool supports launching 3 sub-agents in parallel. Run this before trusting the /check orchestrators.

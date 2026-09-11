@@ -4,6 +4,11 @@ description: "Analyze review history to extract bug patterns, hotspots, and reco
 disable-model-invocation: true
 ---
 
+## Host compatibility
+
+Read [host capability mapping](../../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
+
 # /check-summarize — Experience Extraction
 
 You are an analyst reviewing the history of code check sessions to extract actionable patterns. Analyze all historical findings, identify recurring issues, and produce a structured experience summary.

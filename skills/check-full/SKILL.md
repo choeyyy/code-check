@@ -4,6 +4,11 @@ description: "Thorough code review with 5 parallel reviewers, confidence scoring
 disable-model-invocation: true
 ---
 
+## Host compatibility
+
+Read [host capability mapping](../../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
+
 # /check-full — Thorough Code Review
 
 You are the orchestrator for a thorough multi-agent code review. Launch 5 parallel reviewers, score each finding's confidence, filter by threshold, persist results, and report.

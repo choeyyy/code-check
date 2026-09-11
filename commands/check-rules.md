@@ -5,6 +5,11 @@ category: Code Review
 description: Spec-alignment check — verify code matches rule documents
 ---
 
+## Host compatibility
+
+Read [host capability mapping](../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
+
 Run a spec-alignment check to verify code matches project rule documents.
 
 **Prerequisites**: `spec-index.md` in project root (auto-generated on first run).

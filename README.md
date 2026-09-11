@@ -1,5 +1,23 @@
 # Code Check
 
+## Cursor / Codex / Claude Code (0.3.1)
+
+三端使用同一源技能与资源，安装入口：
+
+```powershell
+python scripts/install_hosts.py --host cursor
+python scripts/install_hosts.py --host codex
+python scripts/install_hosts.py --host claude
+```
+
+默认写入对应用户 skills 目录；Codex 尊重 CODEX_HOME。`--destination` 指定 skills 父目录。
+不同的已有文件默认拒绝覆盖，检查后用 `--overwrite`；无关文件保持不变。
+安装包自包含，复制源仓后也能运行。任务审批、证据要求保持；工具参数按
+[宿主能力](references/host-compatibility.md) 映射。无子代理时明确降级或标记该评测未执行。
+后文 bootstrap/setup/插件界面是 Cursor 专用安装说明，Codex/Claude 使用上面的 Python 安装入口。
+日志技能的数据源由其说明决定；Cursor 日志查询可在其他宿主运行，但不等于读取其他宿主日志。
+
+
 多代理代码审查工具，支持置信度评分、会话追踪和可定制审查规则。
 
 ## 快速安装

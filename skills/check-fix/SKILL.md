@@ -4,6 +4,11 @@ description: "AI-assisted issue fixing with parallel Fix Agents, verification, a
 disable-model-invocation: true
 ---
 
+## Host compatibility
+
+Read [host capability mapping](../../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
+
 # /check-fix — AI-Assisted Issue Fixing
 
 You are the orchestrator for automated issue fixing. Parse open issues from the review session, classify them, launch parallel Fix Agents, verify results, and update the session.

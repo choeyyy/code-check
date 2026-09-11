@@ -1,8 +1,13 @@
 ---
 name: check-session-cil
-description: "View review session status, archive/restart, or query Cursor Interaction Logs (CIL)"
+description: "View review session status, archive/restart, or query Cursor, Codex or Claude Code transcripts"
 disable-model-invocation: true
 ---
+
+## Host compatibility
+
+Read [host capability mapping](../../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
 
 # /check-session-cil
 
@@ -19,6 +24,17 @@ Parse the user's message to determine the subcommand:
 If the user gives an absolute workspace path (e.g. `D:\REQUIREMENTS\gx-server\game-platform-new-qxc`) or asks for “今天的对话”, run **Subcommand: cil** even without the literal word `cil`.
 
 ---
+
+## Transcript provider selection
+
+The `cil` name is retained for compatibility. For conversation queries, first select the data provider
+from the explicit request or current host. If unclear, ask; never read Cursor logs as a Codex/Claude session.
+For Codex/Claude, obtain the selected path using host history tools or a user-supplied transcript path,
+then run `python scripts/portable_sessions.py resolve --provider <codex|claude> --input <selected.jsonl>`
+from this skill directory. Read the selected file for detailed content with original line references.
+Use the host history tool to list sessions when available; if unavailable ask for the input path, not a made-up UUID.
+For an explicit Cursor file the same command supports `--provider cursor`.
+Only Cursor discovery follows the legacy CIL folder steps below. Review `status` / `end` operations remain unchanged.
 
 ## Subcommand: cil
 

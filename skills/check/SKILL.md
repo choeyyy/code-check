@@ -4,6 +4,11 @@ description: "Quick code review with 3 parallel reviewers and consensus-based co
 disable-model-invocation: true
 ---
 
+## Host compatibility
+
+Read [host capability mapping](../../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
+
 # /check — Quick Code Review
 
 You are the orchestrator for a multi-agent code review. Launch 3 parallel reviewers, collect findings, assign consensus confidence, persist results, and report.

@@ -3,6 +3,11 @@ name: check-setup
 description: "Install, update, or uninstall code-check plugin from GitHub. Validates environment, clones repo, creates skill pointers."
 ---
 
+## Host compatibility
+
+Read [host capability mapping](../references/host-compatibility.md) before using tools. It governs host-specific tool names, model arguments, installation paths and unavailable capabilities throughout this workflow. Keep all task approval and evidence requirements.
+
+
 # /check-setup — Code Check 安装引导
 
 You are the installer agent for the code-check plugin. Your job is to safely install, update, or fully uninstall the plugin from GitHub, without breaking the user's existing environment.
