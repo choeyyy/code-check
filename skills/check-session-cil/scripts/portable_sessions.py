@@ -36,6 +36,9 @@ def read(path, provider):
             recognized = True
             texts = [b.get('text','') for b in blocks if isinstance(b,dict) and isinstance(b.get('text',''),str)]
             messages.append({'role':role,'text':'\n'.join(texts),'line':line_no})
+        # Only assistant/tool-call records can establish a real dispatch.
+        if role != 'assistant' and not (provider == 'codex' and msg.get('type') in ('function_call','custom_tool_call')):
+            continue
         calls = [msg] if msg.get('type') in ('function_call','custom_tool_call') else blocks
         for index, call in enumerate(calls):
             if not isinstance(call, dict) or call.get('type') not in ('tool_use','function_call','custom_tool_call'): continue
